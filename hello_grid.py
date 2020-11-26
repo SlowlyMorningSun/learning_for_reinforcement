@@ -12,30 +12,6 @@ UP = 0
 RIGHT = 1
 DOWN = 2
 LEFT = 3
-# q_value = []  ###   需要修改
-# # 贪婪算法
-# def epsilon_greedy( nA , R, T, epsilon = 0.6):
-#     # 初始化累计奖励r
-#     r = 0
-#     N = [0] * nA
-
-#     for _ in range(T):
-#         if np.random.rand() < epsilon :
-#             # 探索阶段：以均匀分布随机选择
-#             a = np.random.randint(q_value.shape[0])
-#         else:
-#             # 利用阶段：选择价值函数最大的动作
-#             a = np.argmax(q_value[:])
-        
-#         # 更新累计奖励和价值函数
-#         v = R(a)
-#         r = r+v
-
-#         q_value[a] = (q_value[a] * N[a] + v)/(N[a]+1)
-#         N[a] += 1
-
-#         # 返回累计奖励r
-#         return r
 
 class HelloGridEnv(discrete.DiscreteEnv):
     metadata = {'render.modes':['human','ansi']}
@@ -51,7 +27,6 @@ class HelloGridEnv(discrete.DiscreteEnv):
         nA = 4
         # 状态集的个数
         nS = np.prod(self.desc.shape)
-        # print(self.desc)
         # 设置最大的行号和最大的列号方便索引
         MAX_Y = self.shape[0]
         MAX_X = self.shape[1]
@@ -59,7 +34,6 @@ class HelloGridEnv(discrete.DiscreteEnv):
         # 初始状态分布[1. 0. 0.  ...],并于格子S开始执行
         isd = np.array(self.desc == b'S').astype('float64').ravel()  # 将其变为对应的一维数组
         isd /= isd.sum()
-        # print(isd)
         # 动作-状态转化概率字典
         P = {}
 
@@ -73,7 +47,6 @@ class HelloGridEnv(discrete.DiscreteEnv):
             s = it.iterindex
             # 获取当前状态所在grid格子中的值
             y,x = it.multi_index
-            # print(y,x)
             # P[s][a] == [(probability,nextstate,reward,done)*4]
             P[s] = {a : [] for a in range(nA)}
             
@@ -113,7 +86,6 @@ class HelloGridEnv(discrete.DiscreteEnv):
             # 准备更新下一个状态
             it.iternext()
         self.P = P
-        # print(P)
         super(HelloGridEnv, self).__init__(nS, nA , P , isd)
     def render(self, mode = 'human', close=False):
         # 判断程序是否结束
@@ -142,15 +114,7 @@ class HelloGridEnv(discrete.DiscreteEnv):
             return outfile
     
     def step(self, a):
-        # print(self.P[self.s])
-        
         transitions = self.P[self.s]
-        # print(transitions)
-        # for key,value in transitions.items():
-        #     print(value)
-        # print(t for t in transitions)
-        # i = categorical_sample([key for key,value in transitions.items()], self.np_random.randint(0,10)) # 有问题
-        # print(self.np_random.rand())
         p, s, r, d= transitions[a]
         self.s = s
         # print(self.s)
@@ -169,8 +133,6 @@ if __name__ == "__main__":
 
         # 随机获取动作 action
         action = env.action_space.sample()
-        # print(action)
-        # print(env.P)
         # 执行随机选取的动作action
         state ,reward, done, info = env.step(action)
 
