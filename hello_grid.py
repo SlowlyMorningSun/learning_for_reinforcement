@@ -60,10 +60,10 @@ class HelloGridEnv(discrete.DiscreteEnv):
 
             if is_done(s_letter):
             # 如果达到状态G，直接更新动作-状态转换概率
-                P[s][UP] = [(1.0,s,reward,True)]
-                P[s][RIGHT] = [(1.0,s,reward,True)]
-                P[s][DOWN] = [(1.0,s,reward,True)]
-                P[s][LEFT] = [(1.0,s,reward,True)]
+                P[s][UP] = [1.0,s,reward,True]
+                P[s][RIGHT] = [1.0,s,reward,True]
+                P[s][DOWN] = [1.0,s,reward,True]
+                P[s][LEFT] = [1.0,s,reward,True]
             else:
             # 如果还没有达到状态G
                 # 新状态位置的索引
