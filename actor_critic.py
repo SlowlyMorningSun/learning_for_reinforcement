@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 env = gym.envs.make('CartPole-v0')
 env = env.unwrapped
 env.seed(1)
-# 蒙特卡洛策略梯度类
+# 演员-评论家策略梯度类
 class Actor_Critic():
     # 演员-评论家策略梯度方法类
     def __init__(self, env, num_episodes=200, learning_rate = 0.01, reward_decay = 0.95):
